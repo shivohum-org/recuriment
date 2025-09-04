@@ -21,6 +21,9 @@ import {
 interface EmployerDashboardProps {
   onBack: () => void;
   onAddJob: (job: Omit<Job, 'id' | 'posted'>) => void;
+  showOnboarding: boolean;
+  onCloseOnboarding: () => void;
+  onCompleteOnboarding: () => void;
 }
 
 interface JobPosting {
@@ -49,7 +52,13 @@ interface Job {
   tags: string[];
 }
 
-const EmployerDashboard: React.FC<EmployerDashboardProps> = ({ onBack, onAddJob }) => {
+const EmployerDashboard: React.FC<EmployerDashboardProps> = ({ 
+  onBack, 
+  onAddJob, 
+  showOnboarding, 
+  onCloseOnboarding, 
+  onCompleteOnboarding 
+}) => {
   const [activeTab, setActiveTab] = useState('post-job');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -289,8 +298,8 @@ const EmployerDashboard: React.FC<EmployerDashboardProps> = ({ onBack, onAddJob 
               </label>
               <button
                 onClick={generateJobDescription}
+                className="ai-generate-btn px-3 py-2 lg:px-4 lg:py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:from-purple-700 hover:to-pink-700 transition-all flex items-center space-x-2 text-xs lg:text-sm"
                 disabled={isGenerating || !jobForm.title || !jobForm.company}
-                className="px-3 py-2 lg:px-4 lg:py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:from-purple-700 hover:to-pink-700 transition-all flex items-center space-x-2 text-xs lg:text-sm"
               >
                 {isGenerating ? (
                   <>
@@ -486,8 +495,9 @@ const EmployerDashboard: React.FC<EmployerDashboardProps> = ({ onBack, onAddJob 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-4">
               <button
+                className="post-job-tab px-4 py-2 rounded-lg font-medium transition-colors"
                 onClick={() => setActiveTab('post-job')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`post-job-tab px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === 'post-job' 
                     ? 'bg-blue-100 text-blue-600' 
                     : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
@@ -496,8 +506,9 @@ const EmployerDashboard: React.FC<EmployerDashboardProps> = ({ onBack, onAddJob 
                 Post Job
               </button>
               <button
+                className="manage-jobs-tab px-4 py-2 rounded-lg font-medium transition-colors"
                 onClick={() => setActiveTab('manage-jobs')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`manage-jobs-tab px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === 'manage-jobs' 
                     ? 'bg-blue-100 text-blue-600' 
                     : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
@@ -573,6 +584,15 @@ const EmployerDashboard: React.FC<EmployerDashboardProps> = ({ onBack, onAddJob 
         {activeTab === 'post-job' && renderPostJob()}
         {activeTab === 'manage-jobs' && renderManageJobs()}
       </main>
+
+      {/* Onboarding Tour */}
+      <OnboardingTour
+        isVisible={showOnboarding}
+        onClose={onCloseOnboarding}
+        onComplete={onCompleteOnboarding}
+        currentView="employer"
+        onNavigate={() => {}}
+      />
     </div>
   );
 };

@@ -37,6 +37,7 @@ interface ProfileData {
 
 function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'job-seeker' | 'employer' | 'onboarding'>('landing');
+  const [showOnboardingTour, setShowOnboardingTour] = useState(false);
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
   const [userProfile, setUserProfile] = useState<ProfileData | null>(null);
   const [jobs, setJobs] = useState<Job[]>([
@@ -95,10 +96,25 @@ function App() {
 
   const handleGetJob = () => {
     if (isFirstTimeUser) {
+      setShowOnboardingTour(true);
       setCurrentView('onboarding');
     } else {
+      setShowOnboardingTour(true);
       setCurrentView('job-seeker');
     }
+  };
+
+  const handlePostJob = () => {
+    setShowOnboardingTour(true);
+    setCurrentView('employer');
+  };
+
+  const handleCloseOnboarding = () => {
+    setShowOnboardingTour(false);
+  };
+
+  const handleCompleteOnboarding = () => {
+    setShowOnboardingTour(false);
   };
 
   return (
@@ -106,7 +122,10 @@ function App() {
       {currentView === 'landing' && (
         <LandingPage 
           onGetJob={handleGetJob}
-          onPostJob={() => setCurrentView('employer')}
+          onPostJob={handlePostJob}
+          showOnboarding={showOnboardingTour}
+          onCloseOnboarding={handleCloseOnboarding}
+          onCompleteOnboarding={handleCompleteOnboarding}
         />
       )}
       {currentView === 'onboarding' && (
@@ -122,6 +141,9 @@ function App() {
         <JobSeekerDashboard 
           onBack={() => setCurrentView('landing')} 
           jobs={jobs}
+          showOnboarding={showOnboardingTour}
+          onCloseOnboarding={handleCloseOnboarding}
+          onCompleteOnboarding={handleCompleteOnboarding}
           userProfile={userProfile}
         />
       )}
@@ -129,6 +151,9 @@ function App() {
         <EmployerDashboard 
           onBack={() => setCurrentView('landing')} 
           onAddJob={addJob}
+          showOnboarding={showOnboardingTour}
+          onCloseOnboarding={handleCloseOnboarding}
+          onCompleteOnboarding={handleCompleteOnboarding}
         />
       )}
     </div>

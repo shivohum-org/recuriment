@@ -26,6 +26,9 @@ import {
 interface JobSeekerDashboardProps {
   onBack: () => void;
   jobs: Job[];
+  showOnboarding: boolean;
+  onCloseOnboarding: () => void;
+  onCompleteOnboarding: () => void;
   userProfile?: {
     personalInfo: {
       name: string;
@@ -80,7 +83,14 @@ interface ResumeData {
   skills: string[];
 }
 
-const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, userProfile: onboardingProfile }) => {
+const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ 
+  onBack, 
+  jobs, 
+  showOnboarding, 
+  onCloseOnboarding, 
+  onCompleteOnboarding,
+  userProfile: onboardingProfile 
+}) => {
   const [activeTab, setActiveTab] = useState('jobs');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -152,8 +162,9 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
       <nav className="p-4">
         <div className="space-y-2">
           <button
+            className="jobs-tab w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors"
             onClick={() => setActiveTab('jobs')}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+            className={`jobs-tab w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
               activeTab === 'jobs' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'
             }`}
             onClick={() => {
@@ -165,6 +176,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
             <span>Browse Jobs</span>
           </button>
           <button
+            className="profile-tab w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors"
             onClick={() => {
               setActiveTab('profile');
               setIsMobileMenuOpen(false);
@@ -177,6 +189,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
             <span>Profile</span>
           </button>
           <button
+            className="resume-tab w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors"
             onClick={() => {
               setActiveTab('resume');
               setIsMobileMenuOpen(false);
@@ -189,6 +202,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
             <span>Resume</span>
           </button>
           <button
+            className="applications-tab w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors"
             onClick={() => {
               setActiveTab('applications');
               setIsMobileMenuOpen(false);
@@ -201,6 +215,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
             <span>Applications</span>
           </button>
           <button
+            className="chatbot-tab w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors"
             onClick={() => {
               setActiveTab('chatbot');
               setIsMobileMenuOpen(false);
@@ -243,7 +258,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
           </div>
           <button
             onClick={() => setShowResumeRating(true)}
-            className="px-3 py-2 lg:px-6 lg:py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm lg:text-base"
+            className="resume-rating-btn px-3 py-2 lg:px-6 lg:py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm lg:text-base"
           >
             <TrendingUp className="w-5 h-5" />
             <span className="hidden sm:inline">Rate My Resume</span>
@@ -709,6 +724,15 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, u
           )}
         </>
       )}
+
+      {/* Onboarding Tour */}
+      <OnboardingTour
+        isVisible={showOnboarding}
+        onClose={onCloseOnboarding}
+        onComplete={onCompleteOnboarding}
+        currentView="job-seeker"
+        onNavigate={() => {}}
+      />
     </div>
   );
 };

@@ -1,14 +1,24 @@
 import React from 'react';
+import OnboardingTour from './OnboardingTour';
 import { Users, Briefcase, Star, TrendingUp, ArrowRight, CheckCircle } from 'lucide-react';
 
 interface LandingPageProps {
   onGetJob: () => void;
   onPostJob: () => void;
+  showOnboarding: boolean;
+  onCloseOnboarding: () => void;
+  onCompleteOnboarding: () => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onGetJob, onPostJob }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ 
+  onGetJob, 
+  onPostJob, 
+  showOnboarding, 
+  onCloseOnboarding, 
+  onCompleteOnboarding 
+}) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 relative">
       {/* Header */}
       <header className="container mx-auto px-4 lg:px-6 py-6">
         <div className="flex items-center justify-between">
@@ -29,7 +39,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetJob, onPostJob }) => {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 lg:px-6 py-12 lg:py-20">
+      <section className="container mx-auto px-4 lg:px-6 py-12 lg:py-20 hero-section">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             Connect Talent with 
@@ -45,16 +55,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetJob, onPostJob }) => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center mb-12 lg:mb-16 px-4">
             <button 
+              className="find-job-btn group px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold text-base lg:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2"
               onClick={onGetJob}
-              className="group px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold text-base lg:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2"
             >
               <Briefcase className="w-5 h-5 lg:w-6 lg:h-6" />
               <span>Find Your Dream Job</span>
               <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button 
+              className="post-job-btn group px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl font-semibold text-base lg:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2"
               onClick={onPostJob}
-              className="group px-6 lg:px-8 py-3 lg:py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl font-semibold text-base lg:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2"
             >
               <Users className="w-5 h-5 lg:w-6 lg:h-6" />
               <span>Hire Top Talent</span>
@@ -145,6 +155,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ onGetJob, onPostJob }) => {
           </div>
         </div>
       </footer>
+
+      {/* Onboarding Tour */}
+      <OnboardingTour
+        isVisible={showOnboarding}
+        onClose={onCloseOnboarding}
+        onComplete={onCompleteOnboarding}
+        currentView="landing"
+        onNavigate={() => {}}
+      />
     </div>
   );
 };
