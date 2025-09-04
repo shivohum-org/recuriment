@@ -26,6 +26,23 @@ import {
 interface JobSeekerDashboardProps {
   onBack: () => void;
   jobs: Job[];
+  userProfile?: {
+    personalInfo: {
+      name: string;
+      email: string;
+      phone: string;
+      location: string;
+      bio: string;
+      jobTitle: string;
+      experience: string;
+    };
+    preferences: {
+      jobTypes: string[];
+      salaryRange: string;
+      workLocation: string;
+    };
+    resumeUploaded: boolean;
+  } | null;
 }
 
 interface Job {
@@ -63,7 +80,7 @@ interface ResumeData {
   skills: string[];
 }
 
-const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs }) => {
+const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs, userProfile: onboardingProfile }) => {
   const [activeTab, setActiveTab] = useState('jobs');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -78,14 +95,21 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
     setShowAIBuilder(false);
   };
 
-  // Mock user profile data
-  const userProfile = {
+  // Use onboarding profile data or fallback to mock data
+  const userProfile = onboardingProfile ? {
+    name: onboardingProfile.personalInfo.name,
+    email: onboardingProfile.personalInfo.email,
+    phone: onboardingProfile.personalInfo.phone,
+    location: onboardingProfile.personalInfo.location,
+    bio: onboardingProfile.personalInfo.bio
+  } : {
     name: 'John Doe',
     email: 'john@example.com',
     phone: '+1 (555) 123-4567',
     location: 'San Francisco, CA',
     bio: 'Passionate frontend developer with 5+ years of experience building responsive web applications...'
   };
+
   const renderSidebar = () => (
     <>
       {/* Mobile Menu Overlay */}
@@ -117,7 +141,12 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
             <X className="w-5 h-5" />
           </button>
         </div>
-        <h2 className="text-xl font-bold text-gray-800">Job Seeker</h2>
+        <div>
+          <h2 className="text-xl font-bold text-gray-800">Welcome back!</h2>
+          {onboardingProfile && (
+            <p className="text-sm text-gray-600">{onboardingProfile.personalInfo.name}</p>
+          )}
+        </div>
       </div>
       
       <nav className="p-4">
@@ -203,8 +232,15 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
       
       {/* Search Header */}
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">Find Your Next Opportunity</h1>
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 space-y-2 lg:space-y-0">
+          <div>
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">Find Your Next Opportunity</h1>
+            {onboardingProfile && (
+              <p className="text-gray-600 mt-1">
+                Looking for {onboardingProfile.personalInfo.jobTitle} positions
+              </p>
+            )}
+          </div>
           <button
             onClick={() => setShowResumeRating(true)}
             className="px-3 py-2 lg:px-6 lg:py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm lg:text-base"
@@ -357,9 +393,11 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
             <User className="w-10 h-10 lg:w-12 lg:h-12 text-white" />
           </div>
           <div className="text-center sm:text-left">
-            <h2 className="text-xl lg:text-2xl font-bold text-gray-800">John Doe</h2>
-            <p className="text-gray-600">Frontend Developer</p>
-            <p className="text-sm text-gray-500">San Francisco, CA</p>
+            <h2 className="text-xl lg:text-2xl font-bold text-gray-800">{userProfile.name}</h2>
+            {onboardingProfile && (
+              <p className="text-gray-600">{onboardingProfile.personalInfo.jobTitle}</p>
+            )}
+            <p className="text-sm text-gray-500">{userProfile.location}</p>
           </div>
         </div>
         
@@ -368,7 +406,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
             <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
             <input 
               type="text" 
-              defaultValue="John Doe" 
+              defaultValue={userProfile.name} 
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -376,7 +414,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
             <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <input 
               type="email" 
-              defaultValue="john@example.com" 
+              defaultValue={userProfile.email} 
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -384,7 +422,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
             <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
             <input 
               type="tel" 
-              defaultValue="+1 (555) 123-4567" 
+              defaultValue={userProfile.phone} 
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -392,7 +430,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
             <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
             <input 
               type="text" 
-              defaultValue="San Francisco, CA" 
+              defaultValue={userProfile.location} 
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -402,12 +440,20 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({ onBack, jobs })
           <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
           <textarea 
             rows={3}
-            defaultValue="Passionate frontend developer with 5+ years of experience building responsive web applications..."
+            defaultValue={userProfile.bio}
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         
         <div className="mt-8">
+          {onboardingProfile?.resumeUploaded && (
+            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div className="flex items-center space-x-2 text-green-700">
+                <CheckCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">Resume uploaded during onboarding</span>
+              </div>
+            </div>
+          )}
           <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
             Save Changes
           </button>
