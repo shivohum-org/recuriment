@@ -30,23 +30,6 @@ interface JobSeekerDashboardProps {
   showOnboarding: boolean;
   onCloseOnboarding: () => void;
   onCompleteOnboarding: () => void;
-  userProfile?: {
-    personalInfo: {
-      name: string;
-      email: string;
-      phone: string;
-      location: string;
-      bio: string;
-      jobTitle: string;
-      experience: string;
-    };
-    preferences: {
-      jobTypes: string[];
-      salaryRange: string;
-      workLocation: string;
-    };
-    resumeUploaded: boolean;
-  } | null;
 }
 
 interface Job {
@@ -90,7 +73,6 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({
   showOnboarding, 
   onCloseOnboarding, 
   onCompleteOnboarding,
-  userProfile: onboardingProfile 
 }) => {
   const [activeTab, setActiveTab] = useState('jobs');
   const [searchTerm, setSearchTerm] = useState('');
@@ -106,14 +88,8 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({
     setShowAIBuilder(false);
   };
 
-  // Use onboarding profile data or fallback to mock data
-  const userProfile = onboardingProfile ? {
-    name: onboardingProfile.personalInfo.name,
-    email: onboardingProfile.personalInfo.email,
-    phone: onboardingProfile.personalInfo.phone,
-    location: onboardingProfile.personalInfo.location,
-    bio: onboardingProfile.personalInfo.bio
-  } : {
+  // Mock user profile data
+  const userProfile = {
     name: 'John Doe',
     email: 'john@example.com',
     phone: '+1 (555) 123-4567',
@@ -154,9 +130,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({
         </div>
         <div>
           <h2 className="text-xl font-bold text-gray-800">Welcome back!</h2>
-          {onboardingProfile && (
-            <p className="text-sm text-gray-600">{onboardingProfile.personalInfo.name}</p>
-          )}
+          <p className="text-sm text-gray-600">{userProfile.name}</p>
         </div>
       </div>
       
@@ -251,11 +225,9 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 space-y-2 lg:space-y-0">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">Find Your Next Opportunity</h1>
-            {onboardingProfile && (
-              <p className="text-gray-600 mt-1">
-                Looking for {onboardingProfile.personalInfo.jobTitle} positions
-              </p>
-            )}
+            <p className="text-gray-600 mt-1">
+              Looking for Frontend Developer positions
+            </p>
           </div>
           <button
             onClick={() => setShowResumeRating(true)}
@@ -410,9 +382,7 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({
           </div>
           <div className="text-center sm:text-left">
             <h2 className="text-xl lg:text-2xl font-bold text-gray-800">{userProfile.name}</h2>
-            {onboardingProfile && (
-              <p className="text-gray-600">{onboardingProfile.personalInfo.jobTitle}</p>
-            )}
+            <p className="text-gray-600">Frontend Developer</p>
             <p className="text-sm text-gray-500">{userProfile.location}</p>
           </div>
         </div>
@@ -462,14 +432,6 @@ const JobSeekerDashboard: React.FC<JobSeekerDashboardProps> = ({
         </div>
         
         <div className="mt-8">
-          {onboardingProfile?.resumeUploaded && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-              <div className="flex items-center space-x-2 text-green-700">
-                <CheckCircle className="w-5 h-5" />
-                <span className="text-sm font-medium">Resume uploaded during onboarding</span>
-              </div>
-            </div>
-          )}
           <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
             Save Changes
           </button>

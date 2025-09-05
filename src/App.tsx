@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import LandingPage from './components/LandingPage';
 import JobSeekerDashboard from './components/JobSeekerDashboard';
 import EmployerDashboard from './components/EmployerDashboard';
-import OnboardingWizard from './components/OnboardingWizard';
 
 interface Job {
   id: string;
@@ -17,29 +16,10 @@ interface Job {
   tags: string[];
 }
 
-interface ProfileData {
-  personalInfo: {
-    name: string;
-    email: string;
-    phone: string;
-    location: string;
-    bio: string;
-    jobTitle: string;
-    experience: string;
-  };
-  preferences: {
-    jobTypes: string[];
-    salaryRange: string;
-    workLocation: string;
-  };
-  resumeUploaded: boolean;
-}
 
 function App() {
-  const [currentView, setCurrentView] = useState<'landing' | 'job-seeker' | 'employer' | 'onboarding'>('landing');
+  const [currentView, setCurrentView] = useState<'landing' | 'job-seeker' | 'employer'>('landing');
   const [showOnboardingTour, setShowOnboardingTour] = useState(false);
-  const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
-  const [userProfile, setUserProfile] = useState<ProfileData | null>(null);
   const [jobs, setJobs] = useState<Job[]>([
     {
       id: '1',
@@ -88,20 +68,10 @@ function App() {
     setJobs(prev => [job, ...prev]);
   };
 
-  const handleOnboardingComplete = (profileData: ProfileData) => {
-    setUserProfile(profileData);
-    setIsFirstTimeUser(false);
-    setCurrentView('job-seeker');
-  };
 
   const handleGetJob = () => {
-    if (isFirstTimeUser) {
-      setShowOnboardingTour(true);
-      setCurrentView('onboarding');
-    } else {
-      setShowOnboardingTour(true);
-      setCurrentView('job-seeker');
-    }
+    setShowOnboardingTour(true);
+    setCurrentView('job-seeker');
   };
 
   const handlePostJob = () => {
@@ -128,15 +98,6 @@ function App() {
           onCompleteOnboarding={handleCompleteOnboarding}
         />
       )}
-      {currentView === 'onboarding' && (
-        <OnboardingWizard
-          onComplete={handleOnboardingComplete}
-          onSkip={() => {
-            setIsFirstTimeUser(false);
-            setCurrentView('job-seeker');
-          }}
-        />
-      )}
       {currentView === 'job-seeker' && (
         <JobSeekerDashboard 
           onBack={() => setCurrentView('landing')} 
@@ -144,7 +105,6 @@ function App() {
           showOnboarding={showOnboardingTour}
           onCloseOnboarding={handleCloseOnboarding}
           onCompleteOnboarding={handleCompleteOnboarding}
-          userProfile={userProfile}
         />
       )}
       {currentView === 'employer' && (
