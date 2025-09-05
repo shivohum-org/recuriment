@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AIResumeBuilder from './AIResumeBuilder';
 import ResumeRating from './ResumeRating';
 import AIChatbot from './AIChatbot';
+import OnboardingTour from './OnboardingTour';
 import { 
   User, 
   FileText, 
