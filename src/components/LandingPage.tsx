@@ -98,6 +98,68 @@ const LandingPage: React.FC<LandingPageProps> = ({
       <section id="features" className="py-12 lg:py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Areas of Expertise</h2>
+            <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
+              Specialized talent solutions across key industries and technical domains
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 px-4 mb-16 lg:mb-20">
+            <div className="text-center p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <TrendingUp className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3">Actuarial & Underwriting</h3>
+              <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
+                Expert professionals in risk assessment, pricing models, and insurance underwriting
+              </p>
+            </div>
+            
+            <div className="text-center p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <Star className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3">Data Science & Data Engineering</h3>
+              <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
+                Advanced analytics, big data solutions, and scalable data infrastructure specialists
+              </p>
+            </div>
+            
+            <div className="text-center p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-green-50 to-green-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <Users className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3">Product Management</h3>
+              <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
+                Strategic product leaders who drive innovation and deliver exceptional user experiences
+              </p>
+            </div>
+            
+            <div className="text-center p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <TrendingUp className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3">Catastrophe Modeling</h3>
+              <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
+                Specialized experts in natural disaster risk modeling and catastrophic event analysis
+              </p>
+            </div>
+            
+            <div className="text-center p-6 lg:p-8 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 md:col-span-2 lg:col-span-1">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <Star className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
+              </div>
+              <h3 className="text-lg lg:text-xl font-bold text-gray-900 mb-3">Machine Learning & Predictive Modeling</h3>
+              <p className="text-sm lg:text-base text-gray-600 leading-relaxed">
+                AI/ML engineers and data scientists building intelligent predictive systems
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-6">
+        <div className="container mx-auto px-4 lg:px-6">
+          <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Why Choose TalentConnect?</h2>
             <p className="text-lg lg:text-xl text-gray-600 max-w-2xl mx-auto px-4">
               Advanced features designed to streamline your recruitment process and accelerate career growth
